@@ -21,12 +21,14 @@ cloudinary.config({
 new Worker(
   "videoQueue",
   async (job) => {
+    console.log(job)
     const { videoId, inputPath, outputDir } = job.data;
     try {
       await convertToHLS(inputPath, outputDir);
 
       // Upload HLS files to Cloudinary
       const files = fs.readdirSync(outputDir);
+      console.log("HLS files:", files);
       const segmentUrls = {};
 
       // Upload segments
